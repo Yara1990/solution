@@ -1,4 +1,5 @@
 pragma solidity ^0.6.0;
+//ignore this file
 
 // import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 // import "@openzeppelin/contracts/utils/Counters.sol";
@@ -9,14 +10,11 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contr
 
 contract Token is ERC721 {
   struct Token{
-    address current_Owner,
-    uint value
+    address current_Owner;
+    uint value;
   }
 
-  PST[] public psts;
-
- mapping (uint => address) public PSTToOwner;
- mapping (address => uint) ownerPSTCount;
+  Token[] public tokens;
 
 
   using Counters for Counters.Counter;
@@ -28,11 +26,11 @@ contract Token is ERC721 {
 
     }
 
-    function awardItem(address player, string memory tokenURI) public returns (uint256) {
+    function awardItem(address user, string memory tokenURI) public returns (uint256) {
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
-        _mint(player, newItemId);
+        _mint(user, newItemId);
         _setTokenURI(newItemId, tokenURI);
 
         return newItemId;
