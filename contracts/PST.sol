@@ -14,10 +14,14 @@ contract PSTToken is ERC20 {
 
 mapping (address => Trade) tradeRequest;
 address[] public requesters;
-  // mapping (uint => address) public PSTToOwner;
-
+address tokenOwner;
+modifier onlyPSTOwner() {
+    require(tokenOwner == msg.sender,'Only token ownercan call this function');
+    _;
+}
     constructor(string memory _name,string memory _symbol,uint initialSupply,address _owner) ERC20(_name, _symbol) public {
         _mint(_owner, initialSupply);
+        tokenOwner = _owner;
 
     }
 
@@ -30,11 +34,11 @@ address[] public requesters;
       requesters.push(msg.sender);
     }
 
-    function getAllRequesters() public view returns(address[] memory) {
+    function getAllRequesters() public view onlyPSTOwner returns(address[] memory) {
       return requesters;
     }
 
-    function getRequesterDetails(address _reqAddress) public view returns(uint price,uint quantity,bool status) {
+    function getRequesterDetails(address _reqAddress) public view onlyPSTOwner returns(uint price,uint quantity,bool status) {
       return (
         tradeRequest[_reqAddress].price,
         tradeRequest[_reqAddress].quantity,
@@ -42,7 +46,9 @@ address[] public requesters;
       );
     }
 
-    function acceptOffer(address _address) public {
+
+// a
+    function acceptOffer(address _address) public onlyPSTOwner {
       tradeRequest[_address].tradeStatus = true;
       transfer(_address,tradeRequest[_address].quantity);
     }
