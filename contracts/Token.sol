@@ -1,5 +1,5 @@
 pragma solidity ^0.6.0;
-//ignore this file
+// /Ignore
 
 // import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 // import "@openzeppelin/contracts/utils/Counters.sol";
